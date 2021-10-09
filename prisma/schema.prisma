@@ -9,3 +9,43 @@ datasource db {
 generator client {
   provider = "prisma-client-js"
 }
+
+model User {
+  id          String @id @default(cuid())
+  name        String
+  email       String
+  password    String
+  createdAt   DateTime @createdAt
+  updatedAt   DateTime @updatedAt
+}
+
+model Class {
+  id          String @id @default(cuid())
+  title       String
+  description String
+  archived    Boolean
+  teacher     User
+  students    [User]
+  owner       User
+  code        String
+  createdAt   DateTime @createdAt
+  updatedAt   DateTime @updatedAt
+}
+
+model ClassWork {
+  id          String @id @default(cuid())
+  title       String
+  description String
+  class       Class
+  author      User
+  types       enum classWorkType {
+    Homework
+    Quiz
+    Test
+  }
+  answers     [classWorkAnswer]
+  duedate     DateTime
+  createdAt   DateTime @createdAt
+  updatedAt   DateTime @updatedAt
+}
+
